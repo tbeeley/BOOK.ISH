@@ -8,6 +8,9 @@ require './lib/user'
 
 require_relative './helpers/application.rb'
 require_relative 'data_mapper_setup'
+require_relative './helpers/session.rb'
+
+include SessionHelpers
 
 # class BookmarkManager < Sinatra::Base
 
@@ -71,6 +74,12 @@ require_relative 'data_mapper_setup'
 			flash[:errors] = ["The email or password is incorrect"]
 			erb :"sessions/new"
 		end
+	end
+
+	delete '/sessions' do
+		flash[:notice] = ["Good bye!"]
+		session[:user_id] = nil
+		redirect to '/'
 	end
 
 #   # start the server if ruby file executed directly
