@@ -1,4 +1,4 @@
-require 'sinatra/base'
+require 'sinatra'
 require 'data_mapper'
 require 'rack-flash'
 
@@ -6,17 +6,14 @@ require './lib/link'
 require './lib/tag'
 require './lib/user'
 
-env = ENV["RACK_ENV"] || "development"
+require_relative './helpers/application.rb'
+require_relative 'data_mapper_setup'
 
-DataMapper.setup(:default, "postgres://localhost/bookmark_manager_#{env}")
-DataMapper.finalize
-DataMapper.auto_upgrade!
-
-class BookmarkManager < Sinatra::Base
+# class BookmarkManager < Sinatra::Base
 
 	enable :sessions
 	set :session_secret, 'super secret'
-	set :views, Proc.new { File.join(root, "..", "views") }
+	set :views, Proc.new { File.join(root, "views") }
 	use Rack::Flash
 
 	get '/' do
@@ -54,20 +51,28 @@ class BookmarkManager < Sinatra::Base
 			session[:user_id] = @user.id
 			redirect to('/')
 		else
-			flash[:notice] = "Sorry, your passwords don't match"
+			flash.now[:errors] = @user.errors.full_messages
 			erb :"users/new"
 		end
 
 	end
 
-	helpers do
-
-		def current_user
-			@current_user ||= User.get(session[:user_id]) if session[:user_id]
-		end
-
+	get '/sessions/new' do
+		erb :"sessions/new"
 	end
 
-  # start the server if ruby file executed directly
-  run! if app_file == $0
-end
+	post '/sessions' do
+		email, password = params[:email], params[:password]
+		user = User.authenticate(email, password)
+		if user
+			session[:user_id] = user.id
+			redirect to '/'
+		else 
+			flash[:errors] = ["The email or password is incorrect"]
+			erb :"sessions/new"
+		end
+	end
+
+#   # start the server if ruby file executed directly
+#   run! if app_file == $0
+# end
