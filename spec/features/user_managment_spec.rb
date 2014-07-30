@@ -18,7 +18,7 @@ feature "User signs up" do
 		lambda { sign_up }.should change(User, :count).by(1)
 		lambda { sign_up }.should change(User, :count).by(0)
 		expect(page).to have_content("This email is already taken")
-	end
+	end	
 
 end
 
@@ -62,29 +62,3 @@ feature "User signs out" do
 	end
 
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

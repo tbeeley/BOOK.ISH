@@ -1,6 +1,7 @@
 source 'http://rubygems.org'
 
 gem 'sinatra'
+gem 'sinatra-partial'
 gem 'data_mapper'
 gem 'bcrypt-ruby'
 gem 'dm-postgres-adapter'

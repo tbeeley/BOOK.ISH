@@ -19,8 +19,4 @@ module SessionHelpers
 		click_button "Sign up"
 	end
 
-	# def sign_out
-	# 	session[:user_id] = nil
-	# end
-
 end
