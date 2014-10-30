@@ -16,7 +16,7 @@ The website will has the following functionality:
 - Filter the links by a tag
 
 ###Take a look at the code
-git clone git@github.com/tbeeley/BOOK.ISH
+git clone https://github.com/tbeeley/BOOK.ISH.git
 cd BookmarkManager
 
 ###Run the tests
