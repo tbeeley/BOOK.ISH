@@ -104,27 +104,6 @@ Then /^(?:|I )should see JSON:$/ do |expected_json|
   expected.should == actual
 end
 
-Then /^(?:|I )should see "([^\"]*)"(?: within "([^\"]*)")?$/ do |text, selector|
-  with_scope(selector) do
-    if page.respond_to? :should
-      page.should have_content(text)
-    else
-      assert page.has_content?(text)
-    end
-  end
-end
-
-Then /^(?:|I )should see \/([^\/]*)\/(?: within "([^\"]*)")?$/ do |regexp, selector|
-  regexp = Regexp.new(regexp)
-  with_scope(selector) do
-    if page.respond_to? :should
-      page.should have_xpath('//*', :text => regexp)
-    else
-      assert page.has_xpath?('//*', :text => regexp)
-    end
-  end
-end
-
 Then /^(?:|I )should not see "([^\"]*)"(?: within "([^\"]*)")?$/ do |text, selector|
   with_scope(selector) do
     if page.respond_to? :should
@@ -146,18 +125,6 @@ Then /^(?:|I )should not see \/([^\/]*)\/(?: within "([^\"]*)")?$/ do |regexp, s
   end
 end
 
-Then /^the "([^\"]*)" field(?: within "([^\"]*)")? should contain "([^\"]*)"$/ do |field, selector, value|
-  with_scope(selector) do
-    field = find_field(field)
-    field_value = (field.tag_name == 'textarea') ? field.text : field.value
-    if field_value.respond_to? :should
-      field_value.should =~ /#{value}/
-    else
-      assert_match(/#{value}/, field_value)
-    end
-  end
-end
-
 Then /^the "([^\"]*)" field(?: within "([^\"]*)")? should not contain "([^\"]*)"$/ do |field, selector, value|
   with_scope(selector) do
     field = find_field(field)
@@ -166,17 +133,6 @@ Then /^the "([^\"]*)" field(?: within "([^\"]*)")? should not contain "([^\"]*)"
       field_value.should_not =~ /#{value}/
     else
       assert_no_match(/#{value}/, field_value)
-    end
-  end
-end
-
-Then /^the "([^\"]*)" checkbox(?: within "([^\"]*)")? should be checked$/ do |label, selector|
-  with_scope(selector) do
-    field_checked = find_field(label)['checked']
-    if field_checked.respond_to? :should
-      field_checked.should == 'checked'
-    else
-      assert_equal 'checked', field_checked
     end
   end
 end
