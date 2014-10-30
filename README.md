@@ -1,6 +1,6 @@
 BOOKISH
 ===================
 
-![Image](/app/assets/images/Screenshot.png)
+![Image](/public/images/Screenshot.png)
 
 My Version. 
