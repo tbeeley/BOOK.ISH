@@ -20,5 +20,5 @@ The website will has the following functionality:
 - cd BookmarkManager
 
 ###Run the tests
-- cd Bookmark_manager
+- cd BookmarkManager
 - rspec
